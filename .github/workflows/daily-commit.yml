@@ -1,0 +1,29 @@
+name: Daily Auto Commit
+
+on:
+  schedule:
+    - cron: "15 10 * * *"   # runs once daily at 10:15 UTC (fixed time, NOT wildcards only)
+  workflow_dispatch:
+
+jobs:
+  commit-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Git identity (23f1001797@ds.study.iitm.ac.in)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "23f1001797@ds.study.iitm.ac.in"
+
+      - name: Make changes
+        run: |
+          echo "Last run: $(date -u)" >> log.txt
+
+      - name: Commit and push changes
+        run: |
+          git add log.txt
+          git commit -m "Daily auto commit $(date -u)" || echo "No changes to commit"
+          git push
