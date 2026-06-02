@@ -2,8 +2,11 @@ name: Daily Auto Commit
 
 on:
   schedule:
-    - cron: "15 10 * * *"   # runs once daily at 10:15 UTC (fixed time, NOT wildcards only)
+    - cron: "15 10 * * *"
   workflow_dispatch:
+
+permissions:
+  contents: write   # 🔥 THIS FIXES THE ERROR
 
 jobs:
   commit-job:
